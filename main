@@ -1,0 +1,31 @@
+
+public class AppliFamilie {
+    public static void main (String[] args) {
+        String[] vornamen = {"Anna", "Lena"};
+        String[] vornamen2 = {"Max", "Paul"};
+
+        Familie müller = new Familie("Müller", vornamen.length);
+        müller.setVornamen(vornamen);
+
+        Familie schmid = new Familie("Schmid", vornamen2.length);
+        schmid.setVornamen(vornamen2);
+
+        Haush haus = new Haush(5);
+        haus.einzug(müller.getFamilienname(), müller.getVornamen(), vornamen.length, 0);
+        haus.einzug(schmid.getFamilienname(), schmid.getVornamen(), vornamen.length, 1);
+
+        ausgabeAnsprechpatner(haus);
+
+    }
+
+    static void ausgabeAnsprechpatner(Haush haus) {
+            for (int i =0; i < haus.getBewohner().length; i++) {
+                if (haus.getBewohner()[i].getFamilienname()== "")
+                    continue;
+                else
+                    System.out.println("Etage:" + i);
+                for ( int j = 0; j < haus.getBewohner()[i].getVornamen().length; j++)
+                    System.out.println(haus.getBewohner()[j].getVornamen()[j] + " " + haus.getBewohner()[j].getFamilienname());
+    }
+}
+}
