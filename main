@@ -1,4 +1,70 @@
+//Familie
+public class Familie {
+    private String familienname;
+    private String[] vornamen;
+    private int ansprechpartner;
 
+    public Familie(String familienname, int anzahl) {
+        this.familienname = familienname;
+        vornamen = new String[anzahl];
+    }
+
+    public String[] getVornamen() {
+        return vornamen;
+    }
+
+    void setVornamen(String[] vornamen) {
+        this.vornamen = vornamen;
+    }
+
+    public String getFamilienname() {
+        return familienname;
+    }
+
+    void setFamilienname(String familienname) {
+        this.familienname = familienname;
+    }
+
+    public int getAnsprechpartner() {
+        return ansprechpartner;
+    }
+
+    void setAnsprechpartner(int ansprechpartner) {
+        this.ansprechpartner = ansprechpartner;
+    }
+}
+
+//Haus
+public class Haush {
+    private String strasse;
+    private Familie[] bewohner;
+    private int hausnaummer;
+
+    public Haush(int hausnaummer) {
+        this.hausnaummer = hausnaummer;
+        this.strasse = "Waldstraße";
+
+        bewohner = new Familie[6];
+        String name = "";
+        int zahl = 0;
+
+        for (int i = 0; i< bewohner.length; i++) {
+            bewohner[i] = new Familie(name, zahl);
+        }
+    }
+
+    void einzug(String familienname, String[] vornamen, int ansprechpatner, int etage) {
+            bewohner[etage].setFamilienname(familienname);
+            bewohner[etage].setVornamen(vornamen);
+            bewohner[etage].setAnsprechpartner(ansprechpatner);
+    }
+
+    public Familie[] getBewohner() {
+        return bewohner;
+    }
+}
+
+//main
 public class AppliFamilie {
     public static void main (String[] args) {
         String[] vornamen = {"Anna", "Lena"};
