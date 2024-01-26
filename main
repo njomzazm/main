@@ -1,97 +1,124 @@
-//Familie
-public class Familie {
-    private String familienname;
-    private String[] vornamen;
-    private int ansprechpartner;
+public abstract class Wohnobjekt {
+    private String stadt;
+    private double qm;
+    private double preis;
 
-    public Familie(String familienname, int anzahl) {
-        this.familienname = familienname;
-        vornamen = new String[anzahl];
+    public String getStadt() {
+        return stadt;
     }
 
-    public String[] getVornamen() {
-        return vornamen;
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
     }
 
-    void setVornamen(String[] vornamen) {
-        this.vornamen = vornamen;
+    public double getPreis() {
+        return preis;
     }
 
-    public String getFamilienname() {
-        return familienname;
+    public void setPreis(double preis) {
+        this.preis = preis;
     }
 
-    void setFamilienname(String familienname) {
-        this.familienname = familienname;
+    public double getQm() {
+        return qm;
     }
 
-    public int getAnsprechpartner() {
-        return ansprechpartner;
-    }
-
-    void setAnsprechpartner(int ansprechpartner) {
-        this.ansprechpartner = ansprechpartner;
+    public void setQm(double qm) {
+        this.qm = qm;
     }
 }
 
-//Haus
-public class Haush {
-    private String strasse;
-    private Familie[] bewohner;
-    private int hausnaummer;
+public class Wohnung extends Wohnobjekt {
+    private String aktuellerMieter;
 
-    public Haush(int hausnaummer) {
-        this.hausnaummer = hausnaummer;
-        this.strasse = "Waldstraße";
+    public String getAktuellerMieter() {
+        return aktuellerMieter;
+    }
 
-        bewohner = new Familie[6];
-        String name = "";
-        int zahl = 0;
+    public void setAktuellerMieter(String aktuellerMieter) {
+        this.aktuellerMieter = aktuellerMieter;
+    }
+}
 
-        for (int i = 0; i< bewohner.length; i++) {
-            bewohner[i] = new Familie(name, zahl);
+public class Wohngemeinschaft extends Wohnobjekt{
+    private int anzahlPersonen;
+    private String[] bewohner;
+
+
+    public void addBewohner(String person){
+        for (int i =0; i < bewohner.length; i++) {
+            if (bewohner[i].equals("")) {
+                bewohner[i] = person;
+                break;
+            }
         }
     }
 
-    void einzug(String familienname, String[] vornamen, int ansprechpatner, int etage) {
-            bewohner[etage].setFamilienname(familienname);
-            bewohner[etage].setVornamen(vornamen);
-            bewohner[etage].setAnsprechpartner(ansprechpatner);
+    public int getAnzahlPersonen() {
+        return anzahlPersonen;
     }
 
-    public Familie[] getBewohner() {
+    public void setAnzahlPersonen(int anzahlPersonen) {
+        this.anzahlPersonen = anzahlPersonen;
+    }
+
+    public String[] getBewohner() {
         return bewohner;
     }
+
+    public void setBewohner(String[] bewohner) {
+        this.bewohner = bewohner;
+    }
 }
 
-//main
-public class AppliFamilie {
-    public static void main (String[] args) {
-        String[] vornamen = {"Anna", "Lena"};
-        String[] vornamen2 = {"Max", "Paul"};
+public class WohnungsApp {
+    public static void main(String[] args) {
 
-        Familie müller = new Familie("Müller", vornamen.length);
-        müller.setVornamen(vornamen);
 
-        Familie schmid = new Familie("Schmid", vornamen2.length);
-        schmid.setVornamen(vornamen2);
+        Wohnung objekt0 = new Wohnung();
+        objekt0.setStadt("Bochum");
+        objekt0.setQm(100);
+        objekt0.setPreis(600);
+        objekt0.setAktuellerMieter("Manuel");
 
-        Haush haus = new Haush(5);
-        haus.einzug(müller.getFamilienname(), müller.getVornamen(), vornamen.length, 0);
-        haus.einzug(schmid.getFamilienname(), schmid.getVornamen(), vornamen.length, 1);
+        Wohngemeinschaft objekt1 = new Wohngemeinschaft();
+        objekt1.setStadt("Bochum");
+        objekt1.setQm(120);
+        objekt1.setPreis(800);
+        objekt1.setAnzahlPersonen(3);
+        objekt1.setBewohner(new String[]{"Leonie, Jasmin"});
+        objekt1.addBewohner("Diellza");
 
-        ausgabeAnsprechpatner(haus);
+        Wohnung objekt2 = new Wohnung();
+        objekt2.setStadt("Bochum");
+        objekt2.setQm(140);
+        objekt2.setPreis(1000);
+        objekt2.setAktuellerMieter("Sarah");
+
+        Wohnobjekt[] array = new Wohnobjekt[]{objekt0, objekt1, objekt2};
+
+        sucheWohnungen(array, "Bochum");
+
 
     }
 
-    static void ausgabeAnsprechpatner(Haush haus) {
-            for (int i =0; i < haus.getBewohner().length; i++) {
-                if (haus.getBewohner()[i].getFamilienname()== "")
-                    continue;
-                else
-                    System.out.println("Etage:" + i);
-                for ( int j = 0; j < haus.getBewohner()[i].getVornamen().length; j++)
-                    System.out.println(haus.getBewohner()[j].getVornamen()[j] + " " + haus.getBewohner()[j].getFamilienname());
+    public static void sucheWohnungen(Wohnobjekt[] array, String stadt) {
+        System.out.println("Stadt: " + stadt);
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                if (array[i].getStadt().equals(stadt))
+                    if (array[i] instanceof Wohnung) {
+                        System.out.println("Wohnung:");
+                        System.out.println("Quadratmeter: " + array[i].getQm() + ", Preis: " + array[i].getPreis() + "€" + ", aktueller Mieter: " + ((Wohnung) array[i]).getAktuellerMieter());
+                    } else if (array[i] instanceof Wohngemeinschaft) {
+                        System.out.println("WG:");
+                        System.out.println("Quadratmeter: " + array[i].getQm() + ", Preis: " + array[i].getPreis() + "€" + ", Anzahl an Personen: " + ((Wohngemeinschaft) array[i]).getAnzahlPersonen());
+                        for (i = 0; i < ((Wohngemeinschaft) array[i]).getBewohner().length; i++) {
+                            System.out.print("Bewohner Nr. " + (i + 1) + ": " + ((Wohngemeinschaft) array[i]).getBewohner()[i] + ", ");
+                        }
+                    }
+            }
+        }
     }
 }
-}
+
