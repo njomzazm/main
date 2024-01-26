@@ -1,124 +1,173 @@
-public abstract class Wohnobjekt {
-    private String stadt;
-    private double qm;
-    private double preis;
+public class Buch1 {
+    private String titel;
+    private String autor;
+    private int isbn;
 
-    public String getStadt() {
-        return stadt;
+    public Buch1(String titel, String autor, int isbn ) {
+        this.titel = titel;
+        this.autor = autor;
+        this.isbn = isbn;
     }
 
-    public void setStadt(String stadt) {
-        this.stadt = stadt;
+    public String getTitel() {
+        return titel;
     }
 
-    public double getPreis() {
-        return preis;
+    public void setTitel(String titel) {
+        this.titel = titel;
     }
 
-    public void setPreis(double preis) {
-        this.preis = preis;
+    public int getIsbn() {
+        return isbn;
     }
 
-    public double getQm() {
-        return qm;
+    public void setIsbn(int isbn) {
+        this.isbn = isbn;
     }
 
-    public void setQm(double qm) {
-        this.qm = qm;
-    }
-}
-
-public class Wohnung extends Wohnobjekt {
-    private String aktuellerMieter;
-
-    public String getAktuellerMieter() {
-        return aktuellerMieter;
+    public String getAutor() {
+        return autor;
     }
 
-    public void setAktuellerMieter(String aktuellerMieter) {
-        this.aktuellerMieter = aktuellerMieter;
+    public void setAutor(String autor) {
+        autor = autor;
     }
 }
 
-public class Wohngemeinschaft extends Wohnobjekt{
-    private int anzahlPersonen;
-    private String[] bewohner;
 
+public class Bibliothek {
+    private String name;
+    private Buch1[] array;
 
-    public void addBewohner(String person){
-        for (int i =0; i < bewohner.length; i++) {
-            if (bewohner[i].equals("")) {
-                bewohner[i] = person;
+    public Bibliothek(String name, Buch1[] array) {
+        this.name = name;
+        this.array = array;
+    }
+
+    public void buchHinzufügen(Buch1 buch) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                array[i] = buch;
+                break;
+            }
+        }
+    }
+    public void buchLöschen(int isbn) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].getIsbn() == isbn) {
+                array[i] = null;
                 break;
             }
         }
     }
 
-    public int getAnzahlPersonen() {
-        return anzahlPersonen;
+    public void buchSuchen(String titel) {
+        for (int i =0; i < array.length; i++) {
+            if (array[i] == null)
+                continue;
+            else if (array[i].getTitel().equals(titel))
+                System.out.println("Titel: " + array[i].getTitel() + ", Autor: " + array[i].getAutor() + ", ISBN: " + array[i].getIsbn());
+        }
     }
 
-    public void setAnzahlPersonen(int anzahlPersonen) {
-        this.anzahlPersonen = anzahlPersonen;
+    public String getName() {
+        return name;
     }
 
-    public String[] getBewohner() {
-        return bewohner;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setBewohner(String[] bewohner) {
-        this.bewohner = bewohner;
+    public Buch1[] getArray() {
+        return array;
+    }
+
+    public void setArray(Buch1[] array) {
+        this.array = array;
     }
 }
 
-public class WohnungsApp {
-    public static void main(String[] args) {
 
+public class Bibliotheksverwaltung {
+    private Bibliothek[] arrayBib;
 
-        Wohnung objekt0 = new Wohnung();
-        objekt0.setStadt("Bochum");
-        objekt0.setQm(100);
-        objekt0.setPreis(600);
-        objekt0.setAktuellerMieter("Manuel");
-
-        Wohngemeinschaft objekt1 = new Wohngemeinschaft();
-        objekt1.setStadt("Bochum");
-        objekt1.setQm(120);
-        objekt1.setPreis(800);
-        objekt1.setAnzahlPersonen(3);
-        objekt1.setBewohner(new String[]{"Leonie, Jasmin"});
-        objekt1.addBewohner("Diellza");
-
-        Wohnung objekt2 = new Wohnung();
-        objekt2.setStadt("Bochum");
-        objekt2.setQm(140);
-        objekt2.setPreis(1000);
-        objekt2.setAktuellerMieter("Sarah");
-
-        Wohnobjekt[] array = new Wohnobjekt[]{objekt0, objekt1, objekt2};
-
-        sucheWohnungen(array, "Bochum");
-
-
+    public Bibliotheksverwaltung(Bibliothek[] arrayBib) {
+        this.arrayBib = arrayBib;
     }
 
-    public static void sucheWohnungen(Wohnobjekt[] array, String stadt) {
-        System.out.println("Stadt: " + stadt);
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] != null) {
-                if (array[i].getStadt().equals(stadt))
-                    if (array[i] instanceof Wohnung) {
-                        System.out.println("Wohnung:");
-                        System.out.println("Quadratmeter: " + array[i].getQm() + ", Preis: " + array[i].getPreis() + "€" + ", aktueller Mieter: " + ((Wohnung) array[i]).getAktuellerMieter());
-                    } else if (array[i] instanceof Wohngemeinschaft) {
-                        System.out.println("WG:");
-                        System.out.println("Quadratmeter: " + array[i].getQm() + ", Preis: " + array[i].getPreis() + "€" + ", Anzahl an Personen: " + ((Wohngemeinschaft) array[i]).getAnzahlPersonen());
-                        for (i = 0; i < ((Wohngemeinschaft) array[i]).getBewohner().length; i++) {
-                            System.out.print("Bewohner Nr. " + (i + 1) + ": " + ((Wohngemeinschaft) array[i]).getBewohner()[i] + ", ");
-                        }
-                    }
+    public void bibliothekHinzufügen(String name) {
+        for (int i = 0; i < arrayBib.length; i++) {
+            if (arrayBib[i] == null) {
+                arrayBib[i] =;
             }
         }
     }
+
+    public void bibliothekLöschen(String name) {
+        for (int i = 0; i < arrayBib.length; i++) {
+            if (arrayBib[i].getName().equals(name))
+                arrayBib[i] = null;
+        }
+
+    }
+
+    public void alleBücherAnzeigen() {
+        for (int i = 0; i < arrayBib.length; i++) {
+            for (int j = 0; i < arrayBib[i].getArray().length; i++) {
+                System.out.println(arrayBib[i].getArray()[j]);
+            }
+
+        }
+    }
 }
+
+public class Tut15 {
+        public static void main (String[] args) {
+                //Bücher erstellen
+                Buch1 alchimist = new Buch1("Der Alchimist", "Paulo1 Coelho", 111);
+                Buch1 elfMinuten = new Buch1("Elf Minuten", "Paulo2 Coelho", 222);
+                Buch1 schutzengel = new Buch1("Schutzengel", "Paulo3 Coelho", 333);
+
+                //Bücher in 2 Array speichern
+                Buch1[] buchArray = new Buch1[]{alchimist, elfMinuten, null};
+                Buch1[] buchArray2 = new Buch1[]{schutzengel, elfMinuten};
+
+                //Eine neue Bibliothek erstellen, dort ein Buch hinzufügen, ein Buch löschen
+                Bibliothek thalia = new Bibliothek("Thalia", buchArray);
+                thalia.buchHinzufügen(schutzengel);
+                thalia.buchLöschen(222);
+
+                //Bücher aus der Bibliothek Thalia ausgeben (nur Titel, dient nur zur Überprüfung), gelöschte Bücher überspringen
+                for (int i =0; i < thalia.getArray().length; i++) {
+                        if (thalia.getArray()[i] == null)
+                                continue;
+                        System.out.println(thalia.getArray()[i].getTitel());
+                }
+
+                //Ein Buch suchen
+                thalia.buchSuchen("Der Alchimist");
+
+                //Ein Array von Bibliotheken erstellen
+                Bibliothek[] arrayBib = new Bibliothek[]{thalia};
+
+                //Eine Bibliotheksverwaltung erstellen
+                Bibliotheksverwaltung verwaltung = new Bibliotheksverwaltung(arrayBib);
+
+                //Eine neue Bibliothek erstellen, diese in die Bibliotheksverwaltung hinzufügen
+                Bibliothek mayersche = new Bibliothek("Mayersche", buchArray2 );
+
+                verwaltung.bibliothekHinzufügen("Mayersche");
+
+                //Das Bibliothek-Array mit ihren Bücher-Arrays ausgeben lassen
+                for (int i =0; i < arrayBib.length; i++) {
+                        System.out.println("Bibliothek: " + arrayBib[i].getName());
+                        for (int j =0; j < buchArray.length; j++) {
+                                if (arrayBib[i].getArray()[j] == null)
+                                        continue;
+                                else
+                                        System.out.println("Titel: " + arrayBib[i].getArray()[j].getTitel());
+                        }
+                }
+        }
+
 
